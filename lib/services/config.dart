@@ -1,5 +1,5 @@
 class Config {
-  static const apiUrl = "<server - url>";
+  static const apiUrl = "localhost:5300";
   static const String loginUrl = "/api/login";
   static const String signupUrl = "/api/register";
   static const String jobs = "/api/jobs";

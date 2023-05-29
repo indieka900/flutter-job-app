@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_nodejs_app/controllers/exports.dart';
 import 'package:flutter_nodejs_app/views/common/app_bar.dart';
 import 'package:flutter_nodejs_app/views/common/custom_btn.dart';
 import 'package:flutter_nodejs_app/views/common/custom_textfield.dart';
@@ -33,6 +34,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
+    var loginNotifier = Provider.of<LoginNotifier>(context);
     return Consumer<SignUpNotifier>(
       builder: (context, value, child) {
         return Scaffold(
@@ -139,7 +141,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 const HeightSpacer(size: 50),
                 CustomButton(
                   onTap: () {
-                    Get.to(() => const MainScreen());
+                    print(loginNotifier.firstTime);
+                    //loginNotifier.firstTime = !loginNotifier.firstTime;
+                    //Get.to(() => const MainScreen());
                   },
                   text: "Register",
                 )
