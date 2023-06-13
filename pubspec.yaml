@@ -28,6 +28,9 @@ dependencies:
   image_cropper: ^3.0.3
   image_picker: ^0.8.7+4
   cached_network_image: ^3.2.3
+  firebase_core: ^2.13.1
+  firebase_storage: ^11.2.2
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:

@@ -44,13 +44,23 @@ class LoginNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool? _loading;
+
+  bool get loading => _loading ?? false;
+
+  set loading(bool newState) {
+    _loading = newState;
+    notifyListeners();
+  }
+
   getPrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     entryPoint = prefs.getBool('entrypoint') ?? false;
     isLoggedIn = prefs.getBool('loggedIn') ?? false;
+    loading = prefs.getBool('loading') ?? false;
   }
 
-  //final loginFormKey = GlobalKey<FormState>();
+  final loginFormKey = GlobalKey<FormState>();
 
   bool passwordValidator(String password) {
     if (password.isEmpty) return false;
@@ -60,24 +70,22 @@ class LoginNotifier extends ChangeNotifier {
     return regex.hasMatch(password);
   }
 
-  bool validateAndSave(GlobalKey<FormState> loginFormKey) {
+  bool validateAndSave() {
     final form = loginFormKey.currentState;
-    print(form);
     if (form != null && form.validate()) {
       form.save();
       return true;
     } else {
-      return true;
+      return false;
     }
   }
 
   userLogin(LoginModel model) {
     AuthHelper.login(model).then((value) {
-      print(value);
       if (value && firstTime) {
-        Get.off(() => const PersonalDetails());
+        Get.offAll(() => const PersonalDetails());
       } else if (value && !firstTime) {
-        Get.off(() => const MainScreen());
+        Get.offAll(() => const MainScreen());
       } else if (!value) {
         Get.snackbar(
           'Sign In Failed',

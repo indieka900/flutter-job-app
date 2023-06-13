@@ -6,20 +6,20 @@ String loginModelToJson(LoginModel data) => json.encode(data.toJson());
 //quicktype
 class LoginModel {
     LoginModel({
-        required this.email,
+        required this.username,
         required this.password,
     });
 
-    final String email;
+    final String username;
     final String password;
 
     factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
-        email: json["email"],
+        username: json["username"],
         password: json["password"],
     );
 
     Map<String, dynamic> toJson() => {
-        "email": email,
+        "username": username,
         "password": password,
     };
 }

@@ -7,7 +7,6 @@ import 'package:flutter_nodejs_app/views/common/custom_textfield.dart';
 import 'package:flutter_nodejs_app/views/common/exports.dart';
 import 'package:flutter_nodejs_app/views/common/height_spacer.dart';
 import 'package:flutter_nodejs_app/views/ui/auth/login.dart';
-import 'package:flutter_nodejs_app/views/ui/mainscreen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -122,6 +121,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           ? Icons.visibility
                           : Icons.visibility_off,
                       color: Color(kDark.value),
+                      
                     ),
                   ),
                 ),
