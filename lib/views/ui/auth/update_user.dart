@@ -11,6 +11,7 @@ import 'package:flutter_nodejs_app/views/common/reusable_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../common/custom_btn.dart';
 
@@ -48,6 +49,16 @@ class _PersonalDetailsState extends State<PersonalDetails> {
       body: Consumer<LoginNotifier>(
         builder: (context, notifierValue, child) {
           notifierValue.getPrefs();
+          bool loading = notifierValue.loading;
+          Future.delayed(const Duration(seconds: 5)).then((value) {
+            if (loading) {
+              setState(() async {
+                final SharedPreferences prefs =
+                    await SharedPreferences.getInstance();
+                await prefs.setBool('loading', false);
+              });
+            }
+          });
           return Stack(
             children: [
               Form(
@@ -214,6 +225,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                       ],
                                     );
                                     notifierValue.updateProfile(model);
+                                    notifierValue.firstTime = true;
                                   }
                                 },
                                 text: "Update Profile",
@@ -226,7 +238,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                   ],
                 ),
               ),
-              notifierValue.loading
+              loading
                   ? Container(
                       color: Colors.white.withOpacity(0.5),
                       height: hieght,

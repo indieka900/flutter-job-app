@@ -10,6 +10,9 @@ import 'package:flutter_nodejs_app/views/ui/auth/login.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../models/request/auth/signup_model.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -33,9 +36,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
-    var loginNotifier = Provider.of<LoginNotifier>(context);
+  
+
+    //var loginNotifier = Provider.of<LoginNotifier>(context);
     return Consumer<SignUpNotifier>(
       builder: (context, value, child) {
+        value.getPrefs();
+        bool loading = value.loading;
+        Future.delayed(const Duration(seconds: 5)).then((value) {
+          if (loading) {
+            setState(() async {
+              final SharedPreferences prefs =
+                  await SharedPreferences.getInstance();
+              await prefs.setBool('loading', false);
+            });
+          }
+        });
         return Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(50),
@@ -49,106 +65,141 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
             ),
           ),
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                const HeightSpacer(size: 50),
-                ReusableText(
-                  text: 'Hello, Welcome',
-                  style: appstyle(
-                    30,
-                    Color(kDark.value),
-                    FontWeight.w600,
+          body: Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Form(
+                  key: value.signupFormKey,
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: <Widget>[
+                      const HeightSpacer(size: 50),
+                      ReusableText(
+                        text: 'Hello, Welcome',
+                        style: appstyle(
+                          30,
+                          Color(kDark.value),
+                          FontWeight.w600,
+                        ),
+                      ),
+                      ReusableText(
+                        text: 'Fill in the details to login to your account',
+                        style: appstyle(
+                          16,
+                          Color(kDarkGrey.value),
+                          FontWeight.w600,
+                        ),
+                      ),
+                      const HeightSpacer(size: 50),
+                      CustomTextField(
+                        controller: name,
+                        keyboardType: TextInputType.text,
+                        validator: (name) {
+                          if (name!.isEmpty || name.length < 3) {
+                            return "Please enter a valid fullname";
+                          } else {
+                            return null;
+                          }
+                        },
+                        hintText: "Fullname",
+                      ),
+                      const HeightSpacer(size: 20),
+                      CustomTextField(
+                        controller: email,
+                        keyboardType: TextInputType.emailAddress,
+                        hintText: "Email",
+                        validator: (email) {
+                          if (email!.isEmpty ||
+                              !email.contains("@") ||
+                              !email.contains(".")) {
+                            return "Please enter a valid email";
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                      const HeightSpacer(size: 20),
+                      CustomTextField(
+                        controller: password,
+                        obscureText: value.isObsecure,
+                        keyboardType: TextInputType.text,
+                        hintText: "Password",
+                        validator: (password) {
+                          if (value.passwordValidator(password ?? "")) {
+                            return "Please enter a valid password";
+                          } else {
+                            return null;
+                          }
+                        },
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            value.isObsecure = !value.isObsecure;
+                          },
+                          child: Icon(
+                            value.isObsecure
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Color(kDark.value),
+                          ),
+                        ),
+                      ),
+                      const HeightSpacer(size: 10),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(() => const LoginPage());
+                          },
+                          child: ReusableText(
+                            text: "Login",
+                            style: appstyle(
+                                14, Color(kDark.value), FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                      const HeightSpacer(size: 50),
+                      CustomButton(
+                        onTap: () {
+                          if (value.validateAndSave()) {
+                            //value.processing = true;
+                            SignupModel model = SignupModel(
+                              username: name.text,
+                              email: email.text,
+                              password: password.text,
+                            );
+                            value.signUP(model);
+                            //loginNotifier.firstTime = !loginNotifier.firstTime;
+                          } else {
+                            Get.snackbar(
+                              'Sign In Failed',
+                              'Please check your credentials and internet',
+                              colorText: Color(kLight.value),
+                              backgroundColor: Colors.red,
+                              icon: const Icon(Icons.add_alert),
+                            );
+                          }
+                        },
+                        text: "Register",
+                      )
+                    ],
                   ),
                 ),
-                ReusableText(
-                  text: 'Fill in the details to login to your account',
-                  style: appstyle(
-                    16,
-                    Color(kDarkGrey.value),
-                    FontWeight.w600,
-                  ),
-                ),
-                const HeightSpacer(size: 50),
-                CustomTextField(
-                  controller: name,
-                  keyboardType: TextInputType.text,
-                  validator: (name) {
-                    if (name!.isEmpty || name.length > 3) {
-                      return "Please enter a valid fullname";
-                    } else {
-                      return null;
-                    }
-                  },
-                  hintText: "Fullname",
-                ),
-                const HeightSpacer(size: 20),
-                CustomTextField(
-                  controller: email,
-                  keyboardType: TextInputType.emailAddress,
-                  hintText: "Email",
-                  validator: (email) {
-                    if (email!.isEmpty ||
-                        !email.contains("@") ||
-                        !email.contains(".")) {
-                      return "Please enter a valid email";
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                const HeightSpacer(size: 20),
-                CustomTextField(
-                  controller: password,
-                  obscureText: value.isObsecure,
-                  keyboardType: TextInputType.text,
-                  hintText: "Password",
-                  validator: (password) {
-                    if (value.passwordValidator(password ?? "")) {
-                      return "Please enter a valid password";
-                    } else {
-                      return null;
-                    }
-                  },
-                  suffixIcon: GestureDetector(
-                    onTap: () {
-                      value.isObsecure = !value.isObsecure;
-                    },
-                    child: Icon(
-                      value.isObsecure
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                      color: Color(kDark.value),
-                      
-                    ),
-                  ),
-                ),
-                const HeightSpacer(size: 10),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.to(() => const LoginPage());
-                    },
-                    child: ReusableText(
-                      text: "Login",
-                      style: appstyle(14, Color(kDark.value), FontWeight.w500),
-                    ),
-                  ),
-                ),
-                const HeightSpacer(size: 50),
-                CustomButton(
-                  onTap: () {
-                    print(loginNotifier.firstTime);
-                    //loginNotifier.firstTime = !loginNotifier.firstTime;
-                    //Get.to(() => const MainScreen());
-                  },
-                  text: "Register",
-                )
-              ],
-            ),
+              ),
+              loading
+                  ? Container(
+                      color: Colors.white.withOpacity(0.5),
+                      height: hieght,
+                      width: width,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: Color(kOrange.value),
+                          strokeWidth: 6,
+                        ),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+            ],
           ),
         );
       },

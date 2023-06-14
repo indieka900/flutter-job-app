@@ -12,6 +12,7 @@ import 'package:flutter_nodejs_app/views/ui/auth/signup.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/request/auth/login_model.dart';
 
@@ -40,10 +41,13 @@ class _LoginPageState extends State<LoginPage> {
       builder: (context, value, child) {
         value.getPrefs();
         bool loading = value.loading;
-        Future.delayed(const Duration(seconds: 3)).then((value) {
+        Future.delayed(const Duration(seconds: 5)).then((value) {
           if (loading) {
-            loading = false;
-            setState(() {});
+            setState(() async {
+              final SharedPreferences prefs =
+                  await SharedPreferences.getInstance();
+              await prefs.setBool('loading', false);
+            });
           }
         });
         return Scaffold(

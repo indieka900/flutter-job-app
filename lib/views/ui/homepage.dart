@@ -12,6 +12,9 @@ import 'package:flutter_nodejs_app/views/ui/jobs/widgets/horizontal_tile.dart';
 import 'package:flutter_nodejs_app/views/ui/search/searchpage.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+
+import '../../controllers/exports.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,16 +26,18 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    var imageNotifier = Provider.of<ImageUpoader>(context);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(50.h),
         child: CustomAppBar(
           actions: <Widget>[
             Padding(
-              padding: EdgeInsets.all(12.h),
-              child: const CircleAvatar(
-                radius: 15,
-                backgroundImage: AssetImage('assets/images/user.png'),
+              padding: EdgeInsets.all(10.h),
+              child: CircleAvatar(
+                radius: 20,
+                backgroundImage:
+                    NetworkImage(imageNotifier.imageUrl.toString()),
               ),
             )
           ],

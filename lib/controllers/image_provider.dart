@@ -4,6 +4,7 @@ import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 import '../constants/app_constants.dart';
@@ -56,6 +57,8 @@ class ImageUpoader extends ChangeNotifier {
       CloudinaryResponse res = await cloudinary
           .uploadFile(CloudinaryFile.fromFile(image!.path, folder: 'name'));
       imageUrl = res.secureUrl;
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('profile', res.secureUrl);
       return res.secureUrl;
     } catch (e) {
       print(e);
@@ -78,7 +81,7 @@ class ImageUpoader extends ChangeNotifier {
       print(e);
     }
     var image = await cropImage(images[0]);
-    uploadImage(image: image);
+    await uploadImage(image: image);
 
     return images;
   }

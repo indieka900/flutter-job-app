@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_nodejs_app/models/request/auth/login_model.dart';
+import 'package:flutter_nodejs_app/models/request/auth/signup_model.dart';
 import 'package:flutter_nodejs_app/services/config.dart';
 import 'package:http/http.dart' as https;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -54,6 +55,27 @@ class AuthHelper {
       body: jsonEncode(model),
     );
     await prefs.setBool('loading', false);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static Future<bool> signUp(SignupModel model) async {
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+    };
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var url = Uri.https(Config.apiUrl, Config.signupUrl);
+    await prefs.setBool('loading', true);
+    var response = await client.post(
+      url,
+      headers: requestHeaders,
+      body: jsonEncode(model),
+    );
+    // await prefs.setBool('loading', false);
+    // print(response.statusCode);
     if (response.statusCode == 200) {
       return true;
     } else {
