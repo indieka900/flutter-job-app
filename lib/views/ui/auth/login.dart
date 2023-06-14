@@ -39,6 +39,13 @@ class _LoginPageState extends State<LoginPage> {
     return Consumer<LoginNotifier>(
       builder: (context, value, child) {
         value.getPrefs();
+        bool loading = value.loading;
+        Future.delayed(const Duration(seconds: 3)).then((value) {
+          if (loading) {
+            loading = false;
+            setState(() {});
+          }
+        });
         return Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(50),
@@ -158,7 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              value.loading
+              loading
                   ? Container(
                       color: Colors.white.withOpacity(0.5),
                       height: hieght,

@@ -5,6 +5,7 @@ import 'package:flutter_nodejs_app/services/config.dart';
 import 'package:http/http.dart' as https;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../models/request/auth/profile_update_model.dart';
 import '../../models/response/auth/login_res_model.dart';
 
 class AuthHelper {
@@ -15,7 +16,7 @@ class AuthHelper {
       'Content-Type': 'application/json',
     };
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    
+
     var url = Uri.https(Config.apiUrl, Config.loginUrl);
     await prefs.setBool('loading', true);
     var response = await client.post(
@@ -32,6 +33,28 @@ class AuthHelper {
       await prefs.setString('userId', userId);
       await prefs.setString('profile', profile);
       await prefs.setBool('loggedIn', true);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static Future<bool> update(ProfileUpdateReq model) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? userID = prefs.getString('userId');
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+    };
+
+    var url = Uri.https(Config.apiUrl, '${Config.profileUrl}/$userID');
+    await prefs.setBool('loading', true);
+    var response = await client.put(
+      url,
+      headers: requestHeaders,
+      body: jsonEncode(model),
+    );
+    await prefs.setBool('loading', false);
+    if (response.statusCode == 200) {
       return true;
     } else {
       return false;

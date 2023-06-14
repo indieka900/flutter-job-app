@@ -7,6 +7,8 @@ import 'package:flutter_nodejs_app/views/ui/mainscreen.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/request/auth/profile_update_model.dart';
+
 class LoginNotifier extends ChangeNotifier {
   bool _obscureText = true;
 
@@ -61,6 +63,7 @@ class LoginNotifier extends ChangeNotifier {
   }
 
   final loginFormKey = GlobalKey<FormState>();
+  final updateFormKey = GlobalKey<FormState>();
 
   bool passwordValidator(String password) {
     if (password.isEmpty) return false;
@@ -72,6 +75,16 @@ class LoginNotifier extends ChangeNotifier {
 
   bool validateAndSave() {
     final form = loginFormKey.currentState;
+    if (form != null && form.validate()) {
+      form.save();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool profileValidation() {
+    final form = updateFormKey.currentState;
     if (form != null && form.validate()) {
       form.save();
       return true;
@@ -98,9 +111,37 @@ class LoginNotifier extends ChangeNotifier {
     });
   }
 
+  updateProfile(ProfileUpdateReq model) {
+    AuthHelper.update(model).then(
+      (response) {
+        if (response) {
+          Get.snackbar(
+            'Profile Update',
+            'Updated Succesfully enjoy your job search',
+            colorText: Color(kLight.value),
+            backgroundColor: Color(kLightBlue.value),
+            icon: const Icon(Icons.add_alert),
+          );
+          Future.delayed(const Duration(seconds: 3)).then((value) {
+            Get.offAll(() => const MainScreen());
+          });
+        } else {
+          Get.snackbar(
+            'Update Failed',
+            'Please check your credentials and internet',
+            colorText: Color(kLight.value),
+            backgroundColor: Colors.red,
+            icon: const Icon(Icons.add_alert),
+          );
+        }
+      },
+    );
+  }
+
   loginOut() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
+    await prefs.remove('userId');
     await prefs.setBool("loggedIn", false);
     _firstTime = false;
   }

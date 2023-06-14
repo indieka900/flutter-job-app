@@ -55,6 +55,7 @@ class ImageUpoader extends ChangeNotifier {
     try {
       CloudinaryResponse res = await cloudinary
           .uploadFile(CloudinaryFile.fromFile(image!.path, folder: 'name'));
+      imageUrl = res.secureUrl;
       return res.secureUrl;
     } catch (e) {
       print(e);
@@ -63,7 +64,6 @@ class ImageUpoader extends ChangeNotifier {
   }
 
   Future<List<File>> pickImage() async {
-    
     try {
       var files = await FilePicker.platform.pickFiles(
         type: FileType.image,
