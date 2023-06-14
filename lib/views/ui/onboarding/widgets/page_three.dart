@@ -43,7 +43,7 @@ class PageThree extends StatelessWidget {
                     final SharedPreferences prefs =
                         await SharedPreferences.getInstance();
                     await prefs.setBool('entrypoint', true);
-                    Get.to(() => const LoginPage());
+                    Get.offAll(() => const LoginPage());
                   },
                   text: 'Login',
                   width: width * 0.4,
@@ -53,7 +53,7 @@ class PageThree extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Get.to(() => const RegistrationPage());
+                    Get.offAll(() => const RegistrationPage());
                   },
                   child: Container(
                     width: width * 0.4,

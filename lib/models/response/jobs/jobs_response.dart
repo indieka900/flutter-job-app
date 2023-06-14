@@ -46,10 +46,10 @@ class JobsResponse {
         period: json["period"],
         contract: json["contract"],
         requirements: List<String>.from(json["requirements"].map((x) => x)),
-        imageUrl: json["imageUrl"],
+        imageUrl: json["image_url"],
         agentId: json["agentId"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
     );
 
 }

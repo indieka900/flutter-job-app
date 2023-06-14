@@ -14,7 +14,7 @@ class ProfileRes {
         required this.skills,
         required this.updatedAt,
         required this.location,
-        required this.phone,
+        //required this.phone,
         required this.profile,
     });
 
@@ -26,7 +26,7 @@ class ProfileRes {
     final List<String> skills;
     final DateTime updatedAt;
     final String location;
-    final String phone;
+    //final String phone;
     final String profile;
 
     factory ProfileRes.fromJson(Map<String, dynamic> json) => ProfileRes(
@@ -38,7 +38,7 @@ class ProfileRes {
         skills: List<String>.from(json["skills"].map((x) => x)),
         updatedAt: DateTime.parse(json["updatedAt"]),
         location: json["location"],
-        phone: json["phone"],
+        //phone: json["phone"],
         profile: json["profile"],
     );
 
@@ -49,9 +49,9 @@ class ProfileRes {
         "isAdmin": isAdmin,
         "isAgent": isAgent,
         "skills": List<dynamic>.from(skills.map((x) => x)),
-        "updatedAt": updatedAt.toIso8601String(),
+        "timestamps": updatedAt.toIso8601String(),
         "location": location,
-        "phone": phone,
+        //"phone": phone,
         "profile": profile,
     };
 }

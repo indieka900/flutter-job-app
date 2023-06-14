@@ -38,7 +38,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget build(BuildContext context) {
   
 
-    //var loginNotifier = Provider.of<LoginNotifier>(context);
+    var loginNotifier = Provider.of<LoginNotifier>(context);
     return Consumer<SignUpNotifier>(
       builder: (context, value, child) {
         value.getPrefs();
@@ -169,7 +169,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               password: password.text,
                             );
                             value.signUP(model);
-                            //loginNotifier.firstTime = !loginNotifier.firstTime;
+                            loginNotifier.firstTime = !loginNotifier.firstTime;
                           } else {
                             Get.snackbar(
                               'Sign In Failed',

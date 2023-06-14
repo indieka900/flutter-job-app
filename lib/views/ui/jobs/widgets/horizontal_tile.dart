@@ -5,10 +5,13 @@ import 'package:flutter_nodejs_app/views/common/width_spacer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
+import '../../../../models/response/jobs/jobs_response.dart';
+
 class JobHorizontalTile extends StatelessWidget {
-  const JobHorizontalTile({super.key, this.onTap});
+  const JobHorizontalTile({super.key, this.onTap, required this.job});
 
   final void Function()? onTap;
+  final JobsResponse job;
 
   @override
   Widget build(BuildContext context) {
@@ -26,23 +29,24 @@ class JobHorizontalTile extends StatelessWidget {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  const CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/Facebook.png'),
+                  CircleAvatar(
+                    backgroundColor: Color(kDarkGrey.value),
+                    backgroundImage: NetworkImage(job.imageUrl),
                   ),
                   const WidthSpacer(width: 12),
                   ReusableText(
-                    text: 'FaceBook',
+                    text: job.company,
                     style: appstyle(26, Color(kDark.value), FontWeight.w600),
                   ),
                 ],
               ),
               const HeightSpacer(size: 15),
               ReusableText(
-                text: 'Senior Flutter Developer',
+                text: job.title,
                 style: appstyle(20, Color(kDark.value), FontWeight.w600),
               ),
               ReusableText(
-                text: 'Washington DC',
+                text: job.location,
                 style: appstyle(16, Color(kDarkGrey.value), FontWeight.w600),
               ),
               const HeightSpacer(size: 15),
@@ -52,12 +56,12 @@ class JobHorizontalTile extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       ReusableText(
-                        text: '15k',
+                        text: job.salary,
                         style:
                             appstyle(23, Color(kDark.value), FontWeight.w600),
                       ),
                       ReusableText(
-                        text: '/monthly',
+                        text: '/${job.period}',
                         style: appstyle(
                             23, Color(kDarkGrey.value), FontWeight.w600),
                       )

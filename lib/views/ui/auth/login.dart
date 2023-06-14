@@ -69,104 +69,91 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Form(
-                  key: value.loginFormKey,
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    children: <Widget>[
-                      const HeightSpacer(size: 50),
-                      ReusableText(
-                        text: 'Welcome Back',
-                        style: appstyle(
-                          30,
-                          Color(kDark.value),
-                          FontWeight.w600,
-                        ),
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: <Widget>[
+                    const HeightSpacer(size: 50),
+                    ReusableText(
+                      text: 'Welcome Back',
+                      style: appstyle(
+                        30,
+                        Color(kDark.value),
+                        FontWeight.w600,
                       ),
-                      ReusableText(
-                        text: 'Fill in the details to login to your account',
-                        style: appstyle(
-                          16,
-                          Color(kDarkGrey.value),
-                          FontWeight.w600,
-                        ),
+                    ),
+                    ReusableText(
+                      text: 'Fill in the details to login to your account',
+                      style: appstyle(
+                        16,
+                        Color(kDarkGrey.value),
+                        FontWeight.w600,
                       ),
-                      const HeightSpacer(size: 50),
-                      CustomTextField(
-                        controller: email,
-                        keyboardType: TextInputType.emailAddress,
-                        hintText: "Email",
-                        validator: (email) {
-                          if (email!.isEmpty) {
-                            return "Please enter a valid email";
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-                      const HeightSpacer(size: 20),
-                      CustomTextField(
-                        controller: password,
-                        obscureText: value.obscureText,
-                        keyboardType: TextInputType.text,
-                        hintText: "Password",
-                        validator: (password) {
-                          if (password!.isEmpty || password.length < 8) {
-                            return "Please enter a valid password";
-                          } else {
-                            return null;
-                          }
-                        },
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            value.obscureText = !value.obscureText;
-                          },
-                          child: Icon(
-                            value.obscureText
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: Color(kDark.value),
-                          ),
-                        ),
-                      ),
-                      const HeightSpacer(size: 10),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: GestureDetector(
-                          onTap: () {
-                            Get.to(() => const RegistrationPage());
-                          },
-                          child: ReusableText(
-                            text: "Register",
-                            style: appstyle(
-                                14, Color(kDark.value), FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                      const HeightSpacer(size: 50),
-                      CustomButton(
+                    ),
+                    const HeightSpacer(size: 50),
+                    CustomTextField(
+                      controller: email,
+                      keyboardType: TextInputType.emailAddress,
+                      hintText: "Email",
+                      validator: (email) {
+                        if (email!.isEmpty) {
+                          return "Please enter a valid email";
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    const HeightSpacer(size: 20),
+                    CustomTextField(
+                      controller: password,
+                      obscureText: value.obscureText,
+                      keyboardType: TextInputType.text,
+                      hintText: "Password",
+                      validator: (password) {
+                        if (password!.isEmpty || password.length < 8) {
+                          return "Please enter a valid password";
+                        } else {
+                          return null;
+                        }
+                      },
+                      suffixIcon: GestureDetector(
                         onTap: () {
-                          if (value.validateAndSave()) {
-                            LoginModel model = LoginModel(
-                              username: email.text,
-                              password: password.text,
-                            );
-
-                            value.userLogin(model);
-                          } else {
-                            Get.snackbar(
-                              'Sign failing',
-                              'Please check your credentials and internet',
-                              colorText: Color(kLight.value),
-                              backgroundColor: Colors.red,
-                              icon: const Icon(Icons.add_alert),
-                            );
-                          }
+                          value.obscureText = !value.obscureText;
                         },
-                        text: "Login",
-                      )
-                    ],
-                  ),
+                        child: Icon(
+                          value.obscureText
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Color(kDark.value),
+                        ),
+                      ),
+                    ),
+                    const HeightSpacer(size: 10),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.to(() => const RegistrationPage());
+                        },
+                        child: ReusableText(
+                          text: "Register",
+                          style: appstyle(
+                              14, Color(kDark.value), FontWeight.w500),
+                        ),
+                      ),
+                    ),
+                    const HeightSpacer(size: 50),
+                    CustomButton(
+                      onTap: () {
+                        LoginModel model = LoginModel(
+                          username: email.text,
+                          password: password.text,
+                        );
+
+                        value.userLogin(model);
+                      },
+                      text: "Login",
+                    )
+                  ],
                 ),
               ),
               loading

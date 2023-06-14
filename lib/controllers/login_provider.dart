@@ -73,25 +73,25 @@ class LoginNotifier extends ChangeNotifier {
     return regex.hasMatch(password);
   }
 
-  bool validateAndSave() {
-    final form = loginFormKey.currentState;
-    if (form != null && form.validate()) {
-      form.save();
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // bool validateAndSave() {
+  //   final form = loginFormKey.currentState;
+  //   if (form != null && form.validate()) {
+  //     form.save();
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
-  bool profileValidation() {
-    final form = updateFormKey.currentState;
-    if (form != null && form.validate()) {
-      form.save();
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // bool profileValidation() {
+  //   final form = updateFormKey.currentState;
+  //   if (form != null && form.validate()) {
+  //     form.save();
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   userLogin(LoginModel model) {
     AuthHelper.login(model).then((value) {

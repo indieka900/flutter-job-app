@@ -3,6 +3,7 @@ import 'package:flutter_nodejs_app/controllers/exports.dart';
 import 'package:flutter_nodejs_app/views/common/drawer/drawer_widget.dart';
 import 'package:flutter_nodejs_app/views/common/exports.dart';
 import 'package:flutter_nodejs_app/views/common/height_spacer.dart';
+import 'package:flutter_nodejs_app/views/ui/auth/login.dart';
 import 'package:flutter_nodejs_app/views/ui/device_mgt/widgets/device_info.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -70,7 +71,7 @@ class DeviceManagement extends StatelessWidget {
                     onTap: () {
                       zoomnotifier.currentIndex = 0;
                       onboardnotifier.isLastPage = false;
-                      Get.to(() => const OnBoardingScreen());
+                      Get.offAll(() => const LoginPage());
                     },
                     child: Align(
                       alignment: Alignment.bottomCenter,

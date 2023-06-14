@@ -37,3 +37,5 @@ List<String> skills = [
   "Firebase",
   "AWS",
 ];
+
+List<String> profile = [];

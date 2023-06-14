@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_nodejs_app/models/request/auth/login_model.dart';
 import 'package:flutter_nodejs_app/models/request/auth/signup_model.dart';
+import 'package:flutter_nodejs_app/models/response/auth/profile_model.dart';
 import 'package:flutter_nodejs_app/services/config.dart';
 import 'package:http/http.dart' as https;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,7 +26,7 @@ class AuthHelper {
       headers: requestHeaders,
       body: jsonEncode(model),
     );
-    await prefs.setBool('loading', false);
+    //await prefs.setBool('loading', false);
     if (response.statusCode == 200) {
       String token = userResponseFromJson(response.body).token;
       String userId = userResponseFromJson(response.body).user.id;
@@ -37,6 +38,28 @@ class AuthHelper {
       return true;
     } else {
       return false;
+    }
+  }
+
+  static Future<ProfileRes> getUser() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? userID = prefs.getString('userId');
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+    };
+
+    var url = Uri.https(Config.apiUrl, '${Config.profileUrl}/$userID');
+    await prefs.setBool('loading', true);
+    var response = await client.get(
+      url,
+      headers: requestHeaders,
+    );
+    //await prefs.setBool('loading', false);
+    if (response.statusCode == 200) {
+      var profile = profileResFromJson(response.body);
+      return profile;
+    } else {
+      throw Exception("Failed to get the profile");
     }
   }
 
@@ -54,7 +77,7 @@ class AuthHelper {
       headers: requestHeaders,
       body: jsonEncode(model),
     );
-    await prefs.setBool('loading', false);
+    //await prefs.setBool('loading', false);
     if (response.statusCode == 200) {
       return true;
     } else {
