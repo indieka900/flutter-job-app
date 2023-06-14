@@ -58,8 +58,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     builder: (context, uploaderValue, child) {
                       return GestureDetector(
                         onTap: () {
-                          if (uploaderValue.imageFil.isNotEmpty) {
-                            uploaderValue.imageFil.clear();
+                          if (uploaderValue.images.isNotEmpty) {
+                            uploaderValue.images.clear();
                             setState(() {});
                             uploaderValue.pickImage();
                           } else {
@@ -67,11 +67,11 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           }
                         },
                         child: CircleAvatar(
-                          backgroundImage: uploaderValue.imageFil.isEmpty
+                          backgroundImage: uploaderValue.images.isEmpty
                               ? null
-                              : FileImage(File(uploaderValue.imageFil[0])),
+                              : FileImage(File(uploaderValue.images[0].path)),
                           backgroundColor: Color(kLightBlue.value),
-                          child: uploaderValue.imageFil.isEmpty
+                          child: uploaderValue.images.isEmpty
                               ? const Center(
                                   child: Icon(Icons.photo_filter_rounded),
                                 )

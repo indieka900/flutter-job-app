@@ -1,43 +1,24 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers
-
 import 'dart:io';
 
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloudinary_public/cloudinary_public.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:flutter_nodejs_app/constants/app_constants.dart';
 import 'package:uuid/uuid.dart';
+
+import '../constants/app_constants.dart';
 
 class ImageUpoader extends ChangeNotifier {
   var uuid = const Uuid();
-  final ImagePicker _picker = ImagePicker();
+
+  final cloudinary = CloudinaryPublic('diyhlasnt', 'n2wofryu');
   String? imageUrl;
   String? imagePath;
 
   List<String> imageFil = [];
+  List<File> images = [];
 
-  void pickImage() async {
-    XFile? _imageFile = await _picker.pickImage(source: ImageSource.gallery);
-    print(_imageFile?.path);
-    if (_imageFile != null) {
-      // Crop the image
-
-      _imageFile = await cropImage(_imageFile);
-      if (_imageFile != null) {
-        imageFil.add(_imageFile.path);
-        print('Here is the image path ${_imageFile.path}');
-        imageUpload(_imageFile);
-        imagePath = _imageFile.path;
-      } else {
-        print('no');
-        return;
-      }
-    }
-  }
-
-  Future<XFile?> cropImage(XFile imageFile) async {
-    // Crop the image using image_cropper package
+  Future<File?> cropImage(File imageFile) async {
     CroppedFile? croppedFile = await ImageCropper.platform.cropImage(
       sourcePath: imageFile.path,
       maxWidth: 600,
@@ -61,22 +42,44 @@ class ImageUpoader extends ChangeNotifier {
 
     if (croppedFile != null) {
       notifyListeners();
-      croppedFile.path == "HereJoseph";
-      return XFile(croppedFile.path);
+
+      return File(croppedFile.path);
     } else {
       return null;
     }
   }
 
-  Future<String?> imageUpload(XFile upload) async {
-    File image = File(upload.path);
-    final ref = FirebaseStorage.instance
-        .ref()
-        .child('JobApp')
-        .child('${uuid.v1()}.jpg');
-    await ref.putFile(image);
-    imageUrl = await ref.getDownloadURL();
-    print(imageUrl);
-    return imageUrl;
+  Future<String?> uploadImage({
+    required File? image,
+  }) async {
+    try {
+      CloudinaryResponse res = await cloudinary
+          .uploadFile(CloudinaryFile.fromFile(image!.path, folder: 'name'));
+      return res.secureUrl;
+    } catch (e) {
+      print(e);
+    }
+    return null;
+  }
+
+  Future<List<File>> pickImage() async {
+    
+    try {
+      var files = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+        allowMultiple: true,
+      );
+      if (files != null && files.files.isNotEmpty) {
+        for (int i = 0; i < files.files.length; i++) {
+          images.add(File(files.files[i].path!));
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+    var image = await cropImage(images[0]);
+    uploadImage(image: image);
+
+    return images;
   }
 }

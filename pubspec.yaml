@@ -31,6 +31,8 @@ dependencies:
   firebase_core: ^2.13.1
   firebase_storage: ^11.2.2
   uuid: ^3.0.7
+  cloudinary_public: ^0.21.0
+  file_picker: ^5.3.2
 
 dev_dependencies:
   flutter_test:
