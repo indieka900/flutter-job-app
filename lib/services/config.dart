@@ -3,7 +3,7 @@ class Config {
   static const String loginUrl = "/login";
   static const String signupUrl = "/register";
   //static const String jobs = "/api/jobs";
-  static const String search = "/api/job";
+  static const String search = "/job";
   static const String job = "/jobs";
   static const String profileUrl = "/users";
   static const String bookmarkUrl = "bookmarks";

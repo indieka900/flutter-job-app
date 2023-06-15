@@ -47,6 +47,26 @@ class JobsHelper {
       throw Exception("Failed to get a job");
     }
   }
+  static Future<List<JobsResponse>> searchJob(String search) async {
+    //final SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+    };
+
+    var url = Uri.https(Config.apiUrl, '${Config.search}?query=$search');
+    //await prefs.setBool('loading', true);
+    var response = await client.get(
+      url,
+      headers: requestHeaders,
+    );
+    //await prefs.setBool('loading', false);
+    if (response.statusCode == 200) {
+      var jobList = jobsResponseFromJson(response.body);
+      return jobList;
+    } else {
+      throw Exception("Failed to get a job");
+    }
+  }
 
   static Future<GetJobRes> getJob(String id) async {
     Map<String, String> requestHeaders = {

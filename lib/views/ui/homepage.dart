@@ -9,6 +9,7 @@ import 'package:flutter_nodejs_app/views/common/search.dart';
 import 'package:flutter_nodejs_app/views/common/vertical_shimmer.dart';
 import 'package:flutter_nodejs_app/views/common/vertical_tile.dart';
 import 'package:flutter_nodejs_app/views/ui/jobs/job_page.dart';
+import 'package:flutter_nodejs_app/views/ui/jobs/jobs_list.dart';
 import 'package:flutter_nodejs_app/views/ui/jobs/widgets/horizontal_shimmer.dart';
 import 'package:flutter_nodejs_app/views/ui/jobs/widgets/horizontal_tile.dart';
 import 'package:flutter_nodejs_app/views/ui/search/searchpage.dart';
@@ -75,7 +76,9 @@ class _HomePageState extends State<HomePage> {
                   const HeightSpacer(size: 30),
                   HeadingWidget(
                     text: "Popular Jobs",
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(() => const JobListPage());
+                    },
                   ),
                   const HeightSpacer(size: 15),
                   SizedBox(
@@ -131,6 +134,11 @@ class _HomePageState extends State<HomePage> {
                       } else {
                         final job = snapshot.data;
                         return VerticalTile(
+                          onTap: () {
+                            Get.to(
+                              () => JobPage(title: job!.company, id: job.id),
+                            );
+                          },
                           job: job,
                         );
                       }
