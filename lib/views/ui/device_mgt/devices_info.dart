@@ -71,6 +71,7 @@ class DeviceManagement extends StatelessWidget {
                     onTap: () {
                       zoomnotifier.currentIndex = 0;
                       onboardnotifier.isLastPage = false;
+                      value.loginOut();
                       Get.offAll(() => const LoginPage());
                     },
                     child: Align(

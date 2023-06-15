@@ -169,7 +169,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               password: password.text,
                             );
                             value.signUP(model);
-                            loginNotifier.firstTime = !loginNotifier.firstTime;
+                            loginNotifier.firstTime = true;
                           } else {
                             Get.snackbar(
                               'Sign In Failed',

@@ -19,7 +19,7 @@ class LoginNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool _firstTime = true;
+  bool _firstTime = false;
 
   bool get firstTime => _firstTime;
 
@@ -142,6 +142,7 @@ class LoginNotifier extends ChangeNotifier {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
     await prefs.remove('userId');
+    await prefs.remove('profile');
     await prefs.setBool("loggedIn", false);
     _firstTime = false;
   }

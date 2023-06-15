@@ -12,7 +12,7 @@ class ProfileRes {
         required this.isAdmin,
         required this.isAgent,
         required this.skills,
-        required this.updatedAt,
+        //required this.updatedAt,
         required this.location,
         //required this.phone,
         required this.profile,
@@ -24,7 +24,7 @@ class ProfileRes {
     final bool isAdmin;
     final bool isAgent;
     final List<String> skills;
-    final DateTime updatedAt;
+    //final DateTime updatedAt;
     final String location;
     //final String phone;
     final String profile;
@@ -36,7 +36,7 @@ class ProfileRes {
         isAdmin: json["isAdmin"],
         isAgent: json["isAgent"],
         skills: List<String>.from(json["skills"].map((x) => x)),
-        updatedAt: DateTime.parse(json["updatedAt"]),
+        //updatedAt: DateTime.parse(json["updatedAt"]),
         location: json["location"],
         //phone: json["phone"],
         profile: json["profile"],
@@ -49,7 +49,7 @@ class ProfileRes {
         "isAdmin": isAdmin,
         "isAgent": isAgent,
         "skills": List<dynamic>.from(skills.map((x) => x)),
-        "timestamps": updatedAt.toIso8601String(),
+        //"timestamps": updatedAt.toIso8601String(),
         "location": location,
         //"phone": phone,
         "profile": profile,

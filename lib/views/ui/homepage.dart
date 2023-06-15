@@ -28,7 +28,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    var imageNotifier = Provider.of<ImageUpoader>(context);
+    //var imageNotifier = Provider.of<ImageUpoader>(context);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(50.h),
@@ -36,14 +36,13 @@ class _HomePageState extends State<HomePage> {
           actions: <Widget>[
             Padding(
               padding: EdgeInsets.all(10.h),
-              child: CircleAvatar(
-                radius: 20,
-                backgroundImage: NetworkImage(
-                  imageNotifier.imageUrl == null
-                      ? 'https://res.cloudinary.com/diyhlasnt/image/upload/v1686647102/cld-sample.jpg'
-                      : imageNotifier.imageUrl.toString(),
-                ),
-              ),
+              child: Consumer<ProfileNotifier>(builder: (context, snapshot, _) {
+                snapshot.getPrefs();
+                return CircleAvatar(
+                  radius: 20,
+                  backgroundImage: NetworkImage(snapshot.profileurl),
+                );
+              }),
             )
           ],
           child: Padding(

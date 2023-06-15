@@ -65,9 +65,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                   borderRadius: BorderRadius.circular(20),
                                   child: CachedNetworkImage(
                                     fit: BoxFit.cover,
+                                    //placeholder: (context, url) => Color(kLightGrey.value),
                                     height: 100.h,
                                     width: 80.w,
-                                    color: Color(kLightGrey.value),
+                                    //color: Color(kLightGrey.value),
                                     imageUrl: userData!.profile,
                                   ),
                                 ),
