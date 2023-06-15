@@ -144,6 +144,7 @@ class LoginNotifier extends ChangeNotifier {
     await prefs.remove('userId');
     await prefs.remove('profile');
     await prefs.setBool("loggedIn", false);
+    await prefs.setBool("loading", false);
     _firstTime = false;
   }
 }
