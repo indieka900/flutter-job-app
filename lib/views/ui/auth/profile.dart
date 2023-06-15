@@ -37,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
       body: Consumer<ProfileNotifier>(builder: (context, value, child) {
-        value.getProfile;
+        value.getProfile();
         return FutureBuilder<ProfileRes>(
             future: value.profile,
             builder: (context, snapShot) {

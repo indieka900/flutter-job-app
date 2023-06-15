@@ -113,7 +113,7 @@ class _JobPageState extends State<JobPage> {
                                           SizedBox(
                                             width: width * 0.2,
                                             child: ReusableText(
-                                              text: job.period,
+                                              text: '/${job.period}',
                                               style: appstyle(
                                                 22,
                                                 Color(kDark.value),

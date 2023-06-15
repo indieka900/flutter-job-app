@@ -7,22 +7,28 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import '../../../../models/response/jobs/jobs_response.dart';
 
-class JobHorizontalTile extends StatelessWidget {
+class JobHorizontalTile extends StatefulWidget {
   const JobHorizontalTile({super.key, this.onTap, required this.job});
 
   final void Function()? onTap;
   final JobsResponse job;
 
   @override
+  State<JobHorizontalTile> createState() => _JobHorizontalTileState();
+}
+
+class _JobHorizontalTileState extends State<JobHorizontalTile> {
+  @override
   Widget build(BuildContext context) {
+    //bool imageaerror = false;
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Padding(
         padding: EdgeInsets.only(right: 12.w),
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           color: Color(kLightGrey.value),
-          width: width * 0.7,
+          width: width * 0.8,
           height: hieght * 0.27,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,22 +37,25 @@ class JobHorizontalTile extends StatelessWidget {
                 children: <Widget>[
                   CircleAvatar(
                     backgroundColor: Color(kDarkGrey.value),
-                    backgroundImage: NetworkImage(job.imageUrl),
+                    backgroundImage: NetworkImage(widget.job.imageUrl),
+                    onBackgroundImageError: (_, __) {
+                      setState(() {});
+                    },
                   ),
                   const WidthSpacer(width: 12),
                   ReusableText(
-                    text: job.company,
-                    style: appstyle(26, Color(kDark.value), FontWeight.w600),
+                    text: widget.job.company,
+                    style: appstyle(22, Color(kDark.value), FontWeight.w600),
                   ),
                 ],
               ),
               const HeightSpacer(size: 15),
               ReusableText(
-                text: job.title,
+                text: widget.job.title,
                 style: appstyle(20, Color(kDark.value), FontWeight.w600),
               ),
               ReusableText(
-                text: job.location,
+                text: widget.job.location,
                 style: appstyle(16, Color(kDarkGrey.value), FontWeight.w600),
               ),
               const HeightSpacer(size: 15),
@@ -56,12 +65,12 @@ class JobHorizontalTile extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       ReusableText(
-                        text: job.salary,
+                        text: widget.job.salary,
                         style:
                             appstyle(23, Color(kDark.value), FontWeight.w600),
                       ),
                       ReusableText(
-                        text: '/${job.period}',
+                        text: '/${widget.job.period}',
                         style: appstyle(
                             23, Color(kDarkGrey.value), FontWeight.w600),
                       )

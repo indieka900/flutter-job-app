@@ -17,7 +17,7 @@ class JobsHelper {
       headers: requestHeaders,
     );
     //await prefs.setBool('loading', false);
-    print(response.statusCode);
+    //print(response.body);
     if (response.statusCode == 200) {
       var jobList = jobsResponseFromJson(response.body);
       return jobList;
@@ -39,10 +39,9 @@ class JobsHelper {
       headers: requestHeaders,
     );
     //await prefs.setBool('loading', false);
-    print(response.statusCode);
     if (response.statusCode == 200) {
       var jobList = jobsResponseFromJson(response.body);
-      var recent = jobList.first;
+      var recent = jobList.last;
       return recent;
     } else {
       throw Exception("Failed to get a job");
@@ -59,8 +58,6 @@ class JobsHelper {
       url,
       headers: requestHeaders,
     );
-    //await prefs.setBool('loading', false);
-    print(response.statusCode);
     if (response.statusCode == 200) {
       var jobList = getJobResFromJson(response.body);
       var recent = jobList;
