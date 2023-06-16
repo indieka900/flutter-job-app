@@ -10,9 +10,11 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
 
 class VerticalTileWidget extends StatelessWidget {
-  const VerticalTileWidget({super.key, required this.job});
+  const VerticalTileWidget(
+      {super.key, required this.job, required this.posted});
 
   final JobsResponse job;
+  final String posted;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,7 @@ class VerticalTileWidget extends StatelessWidget {
                             child: ReusableText(
                               text: job.title,
                               style: appstyle(
-                                20,
+                                18,
                                 Color(kDarkGrey.value),
                                 FontWeight.w600,
                               ),
@@ -80,14 +82,29 @@ class VerticalTileWidget extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(left: 65.w),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ReusableText(
-                      text: job.salary,
-                      style: appstyle(22, Color(kDark.value), FontWeight.w600),
+                    Row(
+                      children: [
+                        ReusableText(
+                          text: job.salary,
+                          style:
+                              appstyle(22, Color(kDark.value), FontWeight.w600),
+                        ),
+                        ReusableText(
+                          text: "/${job.period}",
+                          style:
+                              appstyle(20, Color(kDark.value), FontWeight.w600),
+                        ),
+                      ],
                     ),
                     ReusableText(
-                      text: "/${job.period}",
-                      style: appstyle(20, Color(kDark.value), FontWeight.w600),
+                      text: posted,
+                      style: appstyle(
+                        15,
+                        Color(kDark.value),
+                        FontWeight.normal,
+                      ),
                     ),
                   ],
                 ),

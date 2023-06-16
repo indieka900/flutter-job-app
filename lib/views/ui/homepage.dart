@@ -110,6 +110,7 @@ class _HomePageState extends State<HomePage> {
                                     );
                                   },
                                   job: job,
+                                  posted: _.formatRelativeTime(job.updatedAt),
                                 );
                               },
                             );
@@ -136,10 +137,11 @@ class _HomePageState extends State<HomePage> {
                         return VerticalTile(
                           onTap: () {
                             Get.to(
-                              () => JobPage(title: job!.company, id: job.id),
+                              () => JobPage(title: job.company, id: job.id),
                             );
                           },
                           job: job,
+                          posted: _.formatRelativeTime(job!.updatedAt),
                         );
                       }
                     },

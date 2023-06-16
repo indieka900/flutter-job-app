@@ -6,6 +6,7 @@ import 'package:flutter_nodejs_app/views/ui/jobs/widgets/job_tile.dart';
 import 'package:flutter_nodejs_app/views/ui/search/widgets/custom_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:provider/provider.dart';
 
 import '../../common/height_spacer.dart';
 
@@ -20,6 +21,7 @@ class _SearchPageState extends State<SearchPage> {
   TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    var jobLists = Provider.of<JobsNotifier>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(kOrange.value),
@@ -40,8 +42,8 @@ class _SearchPageState extends State<SearchPage> {
       body: controller.text.isEmpty
           ? const SearchLoading(text: "Start Seaching For Jobs")
           : Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 12.w,vertical: 12.h),
-            child: FutureBuilder<List<JobsResponse>>(
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+              child: FutureBuilder<List<JobsResponse>>(
                 future: JobsHelper.searchJob(controller.text),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -62,13 +64,16 @@ class _SearchPageState extends State<SearchPage> {
                       itemCount: jobs!.length,
                       itemBuilder: (context, index) {
                         final job = jobs[index];
-                        return VerticalTileWidget(job: job);
+                        return VerticalTileWidget(
+                          job: job,
+                          posted: jobLists.formatRelativeTime(job.updatedAt),
+                        );
                       },
                     );
                   }
                 },
               ),
-          ),
+            ),
     );
   }
 }

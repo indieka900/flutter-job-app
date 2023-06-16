@@ -20,4 +20,54 @@ class JobsNotifier extends ChangeNotifier {
   getJob(String jobId) {
     job = JobsHelper.getJob(jobId);
   }
+
+  String formatRelativeTime(DateTime dateTime) {
+  
+
+  final now = DateTime.now();
+  final difference = now.difference(dateTime);
+
+  if (difference.inSeconds < 60) {
+    if (difference.inSeconds == 0) {
+      return "now";
+    } else if (difference.inSeconds == 1) {
+      return '1 second ago';
+    } else {
+      return '${difference.inSeconds} seconds ago';
+    }
+  } else if (difference.inMinutes < 60) {
+    if (difference.inMinutes == 1) {
+      return '1 minute ago';
+    } else {
+      return '${difference.inMinutes} minutes ago';
+    }
+  } else if (difference.inHours < 24) {
+    if (difference.inHours == 1) {
+      return '1 hour ago';
+    } else {
+      return '${difference.inHours} hours ago';
+    }
+  } else if (difference.inDays < 30) {
+    if (difference.inDays == 1) {
+      return '1 day ago';
+    } else {
+      return '${difference.inDays} days ago';
+    }
+  } else if (difference.inDays < 365) {
+    final months = difference.inDays ~/ 30;
+    if (months == 1) {
+      return '1 month ago';
+    } else {
+      return '$months months ago';
+    }
+  } else {
+    final years = difference.inDays ~/ 365;
+    if (years == 1) {
+      return '1 year ago';
+    } else {
+      return '$years years ago';
+    }
+  }
+}
+
 }

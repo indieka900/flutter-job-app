@@ -7,10 +7,11 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import '../../models/response/jobs/jobs_response.dart';
 
 class VerticalTile extends StatelessWidget {
-  const VerticalTile({super.key, this.onTap, required this.job});
+  const VerticalTile({super.key, this.onTap, required this.job, required this.posted});
 
   final void Function()? onTap;
   final JobsResponse? job;
+  final String posted;
 
   @override
   Widget build(BuildContext context) {
@@ -67,16 +68,30 @@ class VerticalTile extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 12.w),
               child: Row(
-                children: <Widget>[
-                  ReusableText(
-                    text: job!.salary,
-                    style: appstyle(23, Color(kDark.value), FontWeight.w600),
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: <Widget>[
+                      ReusableText(
+                        text: job!.salary,
+                        style:
+                            appstyle(23, Color(kDark.value), FontWeight.w600),
+                      ),
+                      ReusableText(
+                        text: '/${job!.period}',
+                        style: appstyle(
+                            23, Color(kDarkGrey.value), FontWeight.w600),
+                      )
+                    ],
                   ),
                   ReusableText(
-                    text: '/${job!.period}',
-                    style:
-                        appstyle(23, Color(kDarkGrey.value), FontWeight.w600),
-                  )
+                    text: posted,
+                    style: appstyle(
+                      15,
+                      Color(kDark.value),
+                      FontWeight.w500,
+                    ),
+                  ),
                 ],
               ),
             ),

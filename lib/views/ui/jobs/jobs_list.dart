@@ -48,6 +48,8 @@ class JobListPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final req = job[index];
                   return VerticalTileWidget(
+                    posted:
+                        jobLists.formatRelativeTime(req.updatedAt),
                     job: req,
                   );
                 },

@@ -33,6 +33,7 @@ dependencies:
   uuid: ^3.0.7
   cloudinary_public: ^0.21.0
   file_picker: ^5.3.2
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
