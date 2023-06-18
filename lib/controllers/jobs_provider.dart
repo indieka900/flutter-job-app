@@ -31,15 +31,15 @@ class JobsNotifier extends ChangeNotifier {
     if (difference.inSeconds == 0) {
       return "now";
     } else if (difference.inSeconds == 1) {
-      return '1 second ago';
+      return '1 sec ago';
     } else {
-      return '${difference.inSeconds} seconds ago';
+      return '${difference.inSeconds} secs ago';
     }
   } else if (difference.inMinutes < 60) {
     if (difference.inMinutes == 1) {
       return '1 minute ago';
     } else {
-      return '${difference.inMinutes} minutes ago';
+      return '${difference.inMinutes} mins ago';
     }
   } else if (difference.inHours < 24) {
     if (difference.inHours == 1) {

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_nodejs_app/controllers/exports.dart';
 import 'package:flutter_nodejs_app/views/ui/jobs/widgets/job_tile.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -30,8 +29,8 @@ class JobListPage extends StatelessWidget {
         future: jobLists.jobList,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return  Center(
+              child: CircularProgressIndicator(color: Color(kOrange.value)),
             );
           } else if (snapshot.hasError) {
             return Center(
@@ -42,14 +41,13 @@ class JobListPage extends StatelessWidget {
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 15.w),
               child: ListView.builder(
+                scrollDirection: Axis.vertical,
                 padding: EdgeInsets.zero,
                 itemCount: job!.length,
-                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   final req = job[index];
                   return VerticalTileWidget(
-                    posted:
-                        jobLists.formatRelativeTime(req.updatedAt),
+                    posted: jobLists.formatRelativeTime(req.updatedAt),
                     job: req,
                   );
                 },

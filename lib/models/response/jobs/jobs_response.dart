@@ -9,7 +9,7 @@ class JobsResponse {
     required this.title,
     required this.location,
     required this.company,
-    //required this.hiring,
+    required this.hiring,
     required this.description,
     required this.salary,
     required this.period,
@@ -25,7 +25,7 @@ class JobsResponse {
   final String title;
   final String location;
   final String company;
-  //final bool hiring;
+  final bool hiring;
   final String description;
   final String salary;
   final String period;
@@ -41,7 +41,7 @@ class JobsResponse {
         title: json["title"],
         location: json["location"],
         company: json["company"],
-        //hiring: json["hiring"],
+        hiring: json["hiring"],
         description: json["description"],
         salary: json["salary"],
         period: json["period"],

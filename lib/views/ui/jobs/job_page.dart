@@ -8,6 +8,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../models/request/bookmarks/bookmarks_model.dart';
 
 class JobPage extends StatefulWidget {
   const JobPage({super.key, required this.title, required this.id});
@@ -30,10 +33,31 @@ class _JobPageState extends State<JobPage> {
           child: CustomAppBar(
             text: widget.title,
             actions: [
-              Padding(
-                padding: EdgeInsets.only(right: 12.0.w),
-                child: const Icon(Entypo.bookmark),
-              ),
+              Consumer<BookMarkNotifier>(builder: (context, _, child) {
+                _.loadjobs();
+                print(_.jobs);
+                return GestureDetector(
+                  onTap: () async {
+                    if (_.jobs.contains(widget.id)) {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      String? id = prefs.getString(widget.id);
+                      _.deleteBookmark(widget.id, id!);
+                      //
+                    } else {
+                      BookmarkReqModel model =
+                          BookmarkReqModel(jobId: widget.id);
+                      _.addBookmark(model, widget.id);
+                    }
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 12.0.w),
+                    child: !_.jobs.contains(widget.id)
+                        ? const Icon(Fontisto.bookmark)
+                        : const Icon(Fontisto.bookmark_alt),
+                  ),
+                );
+              }),
             ],
             child: GestureDetector(
               onTap: () => Get.back(),
@@ -69,9 +93,8 @@ class _JobPageState extends State<JobPage> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                 CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage(job!.imageUrl),
+                                CircleAvatar(
+                                  backgroundImage: NetworkImage(job!.imageUrl),
                                 ),
                                 const HeightSpacer(size: 10),
                                 ReusableText(
