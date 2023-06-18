@@ -62,13 +62,11 @@ class BookMarkHelper {
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
     };
-    print(id);
     var url = Uri.https(Config.apiUrl, '${Config.deletebookmarkUrl}/$id');
     var response = await client.delete(
       url,
       headers: requestHeaders,
     );
-    print(response.statusCode);
     if (response.statusCode == 200) {
       return true;
     } else {

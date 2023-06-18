@@ -60,7 +60,6 @@ class _BookMarkPageState extends State<BookMarkPage> {
                   itemCount: bookmarks!.length,
                   itemBuilder: (context, index) {
                     final bookmark = bookmarks[index];
-                    print(bookmark.job.updatedAt);
                     return BookMarkTileWidget(
                       job: bookmark.job,
                       posted: jobNotifier

@@ -61,7 +61,7 @@ class ImageUpoader extends ChangeNotifier {
       await prefs.setString('profile', res.secureUrl);
       return res.secureUrl;
     } catch (e) {
-      print(e);
+      null;
     }
     return null;
   }
@@ -78,7 +78,7 @@ class ImageUpoader extends ChangeNotifier {
         }
       }
     } catch (e) {
-      print(e);
+      null;
     }
     var image = await cropImage(images[0]);
     await uploadImage(image: image);

@@ -35,7 +35,6 @@ class _JobPageState extends State<JobPage> {
             actions: [
               Consumer<BookMarkNotifier>(builder: (context, _, child) {
                 _.loadjobs();
-                print(_.jobs);
                 return GestureDetector(
                   onTap: () async {
                     if (_.jobs.contains(widget.id)) {
@@ -69,8 +68,8 @@ class _JobPageState extends State<JobPage> {
             future: _.job,
             builder: (context, snapShot) {
               if (snapShot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Center(
+                  child: CircularProgressIndicator(color: Color(kOrange.value)),
                 );
               } else if (snapShot.hasError) {
                 return Center(

@@ -38,14 +38,14 @@ class BookMarkNotifier extends ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var job = prefs.getStringList('job');
     if (job != null) {
-      job = _jobs;
+      _jobs = job;
     }
   }
 
   addBookmark(BookmarkReqModel model, String jobId) {
     BookMarkHelper.addBookmar(model).then((response) {
-      addJob(jobId);
       if (response[0]) {
+        addJob(jobId);
         Get.snackbar(
           'Bookmark added succesfully',
           'Please check bookmark folder',
@@ -67,7 +67,6 @@ class BookMarkNotifier extends ChangeNotifier {
 
   deleteBookmark(String jobId, String id) {
     BookMarkHelper.deleteBookmark(id).then((response) {
-      
       if (response) {
         deleteJob(jobId);
         Get.snackbar(

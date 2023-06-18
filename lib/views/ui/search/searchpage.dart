@@ -41,42 +41,40 @@ class _SearchPageState extends State<SearchPage> {
       ),
       body: controller.text.isEmpty
           ? const SearchLoading(text: "Start Seaching For Jobs")
-          : SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
-                child: FutureBuilder<List<JobsResponse>>(
-                  future: JobsHelper.searchJob(controller.text),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: CircularProgressIndicator(
-                            color: Color(kOrange.value)),
+          : Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+            child: FutureBuilder<List<JobsResponse>>(
+              future: JobsHelper.searchJob(controller.text),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                        color: Color(kOrange.value)),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text("Error occured ${snapshot.error}"),
+                  );
+                } else if (snapshot.data!.isEmpty) {
+                  return const SearchLoading(
+                    text: 'No Result Found',
+                  );
+                } else {
+                  final jobs = snapshot.data;
+                  return ListView.builder(
+                    itemCount: jobs!.length,
+                    itemBuilder: (context, index) {
+                      final job = jobs[index];
+                      return VerticalTileWidget(
+                        job: job,
+                        posted: jobLists.formatRelativeTime(job.updatedAt),
                       );
-                    } else if (snapshot.hasError) {
-                      return Center(
-                        child: Text("Error occured ${snapshot.error}"),
-                      );
-                    } else if (snapshot.data!.isEmpty) {
-                      return const SearchLoading(
-                        text: 'No Result Found',
-                      );
-                    } else {
-                      final jobs = snapshot.data;
-                      return ListView.builder(
-                        itemCount: jobs!.length,
-                        itemBuilder: (context, index) {
-                          final job = jobs[index];
-                          return VerticalTileWidget(
-                            job: job,
-                            posted: jobLists.formatRelativeTime(job.updatedAt),
-                          );
-                        },
-                      );
-                    }
-                  },
-                ),
-              ),
+                    },
+                  );
+                }
+              },
             ),
+          ),
     );
   }
 }
