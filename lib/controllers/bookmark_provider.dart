@@ -88,7 +88,9 @@ class BookMarkNotifier extends ChangeNotifier {
     });
   }
 
-  getBookmarks() {
+  getBookmarks() async {
     allbookmarks = BookMarkHelper.getBookmarks();
+    //var hello = allbookmarks?[0];
+    
   }
 }
