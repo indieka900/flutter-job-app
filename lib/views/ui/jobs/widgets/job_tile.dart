@@ -89,12 +89,12 @@ class VerticalTileWidget extends StatelessWidget {
                         ReusableText(
                           text: job.salary,
                           style:
-                              appstyle(22, Color(kDark.value), FontWeight.w600),
+                              appstyle(20, Color(kDark.value), FontWeight.w600),
                         ),
                         ReusableText(
                           text: "/${job.period}",
                           style:
-                              appstyle(20, Color(kDark.value), FontWeight.w600),
+                              appstyle(18, Color(kDark.value), FontWeight.w600),
                         ),
                       ],
                     ),
