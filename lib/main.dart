@@ -38,7 +38,7 @@ void main() async {
     ChangeNotifierProvider(create: (context) => ImageUpoader()),
     ChangeNotifierProvider(create: (context) => ProfileNotifier()),
   ], child: const MyApp()));
-}
+}                       
 
 class MyApp extends StatelessWidget {
   const MyApp({

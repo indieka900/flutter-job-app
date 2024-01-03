@@ -81,11 +81,12 @@ class JobsHelper {
       'Content-Type': 'application/json',
     };
 
-    var url = Uri.https(Config.apiUrl, '${Config.job}/$id');
+    var url = Uri.https(Config.apiUrl, '/jobs/$id');
     var response = await client.get(
       url,
       headers: requestHeaders,
     );
+    print(url);
     if (response.statusCode == 200) {
       var jobList = getJobResFromJson(response.body);
       var recent = jobList;
