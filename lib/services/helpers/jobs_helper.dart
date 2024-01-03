@@ -86,7 +86,6 @@ class JobsHelper {
       url,
       headers: requestHeaders,
     );
-    print(url);
     if (response.statusCode == 200) {
       var jobList = getJobResFromJson(response.body);
       var recent = jobList;
